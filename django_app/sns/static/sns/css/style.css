@@ -1,0 +1,19 @@
+    body {
+    color:rgb(250, 250, 250);
+    font-size:16pt;
+    }
+    a {
+    color:blue;
+    text-decoration: none;
+    background-color: rgb(205, 253, 253);
+    padding: 0.2em;
+    }
+    a:hover {
+    color:rgb(180, 180, 238);
+    text-decoration: none;
+    background-color: blue;
+    padding: 0.2em;
+    }
+    h1 {
+        opacity: 0.2;
+    }

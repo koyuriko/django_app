@@ -1,0 +1,39 @@
+{% extends 'sns/layout.html' %}
+
+{% block title %}Post{% endblock %}
+{% block header %}
+<h1 class="display-4 text-primary">{{login_user}}_Posts</h1>
+<p class="caption">{{login_user}} の投稿したメッセージ</p>
+{% endblock %}
+
+{% block content %}
+<table class="table mt-3">
+<tr>
+    <th>Messages</th>
+</tr>
+    {% for item in contents %}
+<tr>
+    <td>
+    <p class="fs-4 my-0">
+    {{item.content}}
+    <span class="fs-5">
+    {% if item.owner == login_user %}
+    <a href="{% url 'sns:edit' item.id %}">edit</a>
+    |
+    <a href="{% url 'sns:delete' item.id %}">delete</a>
+    {% endif %}
+    </span>
+    </p>
+    <p class="my-0 text-end">
+        <span class="fs-6">
+        ({{item.pub_date}})
+        </span>
+    </p>
+    <p class="my-0 text-end text-info">
+    good={{item.good_count}}
+    </p>
+    </td>
+</tr>
+    {% endfor %}
+</table>
+{% endblock %}

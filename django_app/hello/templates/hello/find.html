@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body class="container">
+    <h1 class="display-4 text-primary">{{title}}</h1>
+    <p>{{message|safe}}</p>
+    <form action="{% url 'hello:find' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <tr><th></th><td>
+        <input type="submit" value="GO" class="btn btn-primary mt-2">
+    </form>
+    <hr>
+    <table class="table">
+    <tr>
+    <th>id</th>
+    <th>name</th>
+    <th>age</th>
+    <th>mail</th>
+    <th>birthday</th>
+    </tr>
+    {% for item in data %}
+    <tr>
+    <th>{{item.id}}</th>
+    <td>{{item.name}}</td>
+    <td>{{item.age}}</td>
+    <td>{{item.mail}}</td>
+    <td>{{item.birthday}}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

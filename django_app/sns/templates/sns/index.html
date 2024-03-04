@@ -1,0 +1,117 @@
+{% extends 'sns/layout.html' %}
+
+{% block title %}Index{% endblock %}
+
+{% block header %}
+<h1 class="display-4 text-primary">SNS</h1>
+
+{% if messages %}
+<div class="alert alert-primary alert-dismissible fade show" role="alert">
+
+{% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'sns:post' %}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+<button class="btn btn-primary">Post!</button>
+</form>
+<hr>
+<table class="table mt-3">
+<tr>
+    <th>Messages</th>
+</tr>
+    {% for item in contents %}
+<tr>
+    <td>
+    <p class="fs-4 my-0">
+    {{item.content}}
+    </p>
+    {% if item.owner == login_user %}
+    <span class="fs-5">
+        <a href="{% url 'sns:edit' item.id %}">edit</a> |
+        <a href="{% url 'sns:delete' item.id %}">delete</a>
+    </span>
+    {% endif %}
+    <p class="my-0 text-end">
+    {% if item.owner == login_user %}
+    <span class="fs-5">
+    @ <a href="{% url 'sns:post' %}">{{item.owner.username}}</a> /
+    </span>
+    {% endif %}
+    {% if item.owner != login_user %}
+    <span class="fs-5">
+    @ <a href="{% url 'sns:filter' item.owner.id %}">{{item.owner.username}}</a> /
+    </span>
+    {% endif %}
+    <span class="fs-6">
+    ({{item.pub_date}})
+    </span>
+    </p>
+    <p class="mt-1 fs-6 text-end">
+    <span class="h-6 text-primary">
+    good={{item.good_count}}
+    </span>
+    <span class="float-right">
+    {% if item.owner != login_user %}
+    <a href="{% url 'sns:good' item.id %}">
+    <button class="py-0 px-1 btn btn-outline-primary">good!</button></a>
+    {% endif %}
+    </span>
+    </p>
+    </td>
+</tr>
+    {% endfor %}
+</table>
+
+<ul class="pagination justify-content-center">
+{% if contents.has_previous %}
+<li class="page-item">
+<a class="page-link" href="{% url '/sns/' %}">
+    &laquo; first</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="/sns/{{contents.previous_page_number}}">
+    &laquo; prev</a>
+</li>
+{% else %}
+<li class="page-item">
+<a class="page-link">
+    &laquo; first</a>
+</li>
+<li class="page-item">
+<a class="page-link">
+    &laquo; prev</a>
+</li>
+{% endif %}
+<li class="page-item">
+<a class="page-link">
+    {{contents.number}}/{{contents.pagenator.num_pages}}</a>
+</li>
+{% if contents.has_next %}
+<li class="page-item">
+<a class="page-link" href="/sns/{{contents.next_page_number}}">
+    next &raquo;</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="/sns/{{contents.paginator.num_pages}}">
+    last &raquo;</a>
+</li>
+{% else %}
+<li class="page-item">
+<a class="page-link">
+    next &raquo;</a>
+</li>
+<li class="page-item">
+<a class="page-link">
+    last &raquo;</a>
+</li>
+{% endif %}
+</ul>
+{% endblock %}

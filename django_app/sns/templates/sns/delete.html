@@ -1,0 +1,35 @@
+{% extends 'sns/layout.html' %}
+
+{% block title %}Posts_delete{% endblock %}
+{% block header %}
+<h1 class="display-4 text-primary">{{login_user}}_Posts_delete</h1>
+<p class="caption">{{login_user}} のメッセージを削除</p>
+{% endblock %}
+
+{% block content %}
+<table class="table">
+
+<form action="{% url 'sns:delete' id %}" method="post">
+{% csrf_token %}
+
+<tr><th></th><td>
+    <p class="fs-4 my-0">
+    {{item.content}}
+    </p>
+    <p class="my-0 text-end">
+    <span class="fs-5">
+    @ {{item.owner.username}} /
+    </span>
+    <span class="fs-6">
+    ({{item.pub_date}})
+    </span>
+    </p>
+    <input type="submit" value="delete" class="btn btn-primary mt-2">
+    </td></th></tr>
+
+    </table>
+</form>
+{% endblock %}
+
+</body>
+</html>

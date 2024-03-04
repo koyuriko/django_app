@@ -1,0 +1,41 @@
+{% extends 'sns/layout.html' %}
+
+{% block title %}Filter{% endblock %}
+{% block header %}
+<h1 class="display-4 text-primary">{{username}}_Posts</h1>
+<p class="caption">{{username}} の投稿したメッセージ</p>
+{% endblock %}
+
+{% block content %}
+<table class="table mt-3">
+<tr>
+    <th>Messages</th>
+</tr>
+    {% for item in contents %}
+<tr>
+    <td>
+    <p class="fs-4 my-0">
+    {{item.content}}
+    </p>
+    <p class="my-0 text-end">
+        <span class="fs-5">
+        @ {{item.owner.username}} /
+        </span>
+        <span class="fs-6">
+        ({{item.pub_date}})
+        </span>
+    </p>
+    <p class="mt-1 fs-6 text-end">
+    <span class="h-6 text-primary">
+        good={{item.good_count}}
+    </span>
+    <span class="float-right">
+    <a href="{% url 'sns:good' item.id %}">
+    <button class="py-0 px-1 btn btn-outline-primary">good!</button></a>
+    </span>
+    </p>
+    </td>
+</tr>
+    {% endfor %}
+</table>
+{% endblock %}
